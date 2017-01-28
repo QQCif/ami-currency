@@ -15,27 +15,15 @@
     ]
   },
   "permissions": [
-    "http://*/*",
-    "https://*/*",
-    "background",
-    "bookmarks",
-    "clipboardRead",
-    "clipboardWrite",
-    "contentSettings",
-    "cookies",
-    "*://*.google.com/",
-    "debugger",
-    "history",
-    "idle",
-    "management",
-    "notifications",
-    "pageCapture",
-    "tabs",
-    "topSites",
-    "storage",
-    "webNavigation",
-    "webRequest",
-    "webRequestBlocking"
+    "http://*.amiami.com/*",
+    "https://*.amiami.com/*",
+    "webRequest"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://www.amiami.com/top/detail/*"],
+      "js": ["scripts/jquery-3.1.1.min.js", "scripts/cs.js"]
+    }
   ],
   "options_ui": {
     "page": "options.html",
