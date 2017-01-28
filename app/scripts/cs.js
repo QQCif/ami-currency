@@ -16,9 +16,17 @@ function currencyConvert(locale) {
 
     // Find price
     if($(".off_price").length) {
-      var price = $(".price")[0].childNodes[1].nodeValue.trim();
+      var price = $(".price").contents().filter(function(){ return this.nodeType == 3; }).text();
+      //$(".price")[0].childNodes[1].nodeValue.trim();
+      console.log(price);
       var localPrice = Math.trunc(trimPrice(price) * rate);
-      $(".price")[0].childNodes[1].nodeValue = localPrice + "\u00A0CNY";
+      console.log(localPrice);
+      $(function () {
+        $(".price").fadeOut(200, function () {
+          $(this).text(localPrice + "\u00A0CNY").fadeIn(200);
+        });
+      });
+      //$(".price")[0].childNodes[1].nodeValue = localPrice + "\u00A0CNY";
     } else {
       var price = $(".price").text().trim();
       var localPrice = Math.trunc(trimPrice(price) * rate);
