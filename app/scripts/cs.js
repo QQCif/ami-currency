@@ -1,4 +1,26 @@
+// Hardcoded locale for testing
 var localCurrencyCode = "CNY";
+
+// The "Price" object
+function Price(type, rate) {
+  this.price = $(type).contents().filter(function () { return this.nodeType == 3; }).text();
+  // Remove separator and JPY
+  this.trimPrice = function (string) {
+    return string.replace(/,/g, "").slice(0, -4);
+  }
+  this.convertToLocalPrice = function (rate) {
+    return Math.trunc(this.trimPrice(this.price) * rate);
+  }
+  var localPrice = this.convertToLocalPrice(rate);
+  this.convert = function () {
+    $(type).fadeOut(200, function () {
+      $(this).text(localPrice + "\u00A0CNY").fadeIn(200);
+    });
+  }
+}
+
+currencyConvert(localCurrencyCode);
+
 function currencyConvert(locale) {
   var currency_input = 1;
   var currency_from = "JPY"; // currency codes : http://en.wikipedia.org/wiki/ISO_4217
@@ -14,22 +36,8 @@ function currencyConvert(locale) {
   $.get(yql_query_url, function (data) {
     rate = data.query.results.rate.Rate;
 
-    // Find price
-    var price = $(".price").contents().filter(function () { return this.nodeType == 3; }).text();
-    console.log(price);
-    var localPrice = Math.trunc(trimPrice(price) * rate);
-    console.log(localPrice);
-    $(function () {
-      $(".price").fadeOut(200, function () {
-        $(this).text(localPrice + "\u00A0CNY").fadeIn(200);
-      });
-    });
-
+    // Make a "Price" object
+    var price = new Price(".price", rate);
+    price.convert();
   });
-
-  // Remove separator and JPY
-  function trimPrice(string) {
-    return string.replace(/,/g, "").slice(0, -4);
-  }
 }
-currencyConvert(localCurrencyCode);
