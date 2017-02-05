@@ -10,7 +10,7 @@ function Price(type, rate) {
     return string.replace(/,/g, "").slice(0, -4);
   }
   var convertToLocalPrice = function (rate) {
-    return Math.trunc(trimPrice(price) * rate);
+    return (trimPrice(price) * rate).toFixed(2);
   }
   var localPrice = convertToLocalPrice(rate);
   this.convert = function () {
