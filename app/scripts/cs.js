@@ -3,8 +3,8 @@ var localCurrencyCode = "CNY";
 
 // The "Price" object
 function Price(type, rate) {
-  var priceClass = $(type).first();
-  var price = priceClass.contents().filter(function () { return this.nodeType == 3; }).text().trim();  
+  this.priceClass = $(type).first();
+  var price = this.priceClass.contents().filter(function () { return this.nodeType == 3; }).text().trim();
   // Remove separator and JPY
   var trimPrice = function (string) {
     return string.replace(/,/g, "").slice(0, -4);
@@ -12,12 +12,14 @@ function Price(type, rate) {
   var convertToLocalPrice = function (rate) {
     return (trimPrice(price) * rate).toFixed(2);
   }
-  var localPrice = convertToLocalPrice(rate);
-  this.convert = function () {
-    priceClass.fadeOut(200, function () {
-      $(this).text(localPrice + "\u00A0CNY").fadeIn(200);
-    });
-  }
+  this.localPrice = convertToLocalPrice(rate);
+}
+
+Price.prototype.convert = function () {
+  var lp = this.localPrice;
+  this.priceClass.fadeOut(200, function () {
+    $(this).text(lp + "\u00A0CNY").fadeIn(200);
+  });
 }
 
 currencyConvert(localCurrencyCode);
