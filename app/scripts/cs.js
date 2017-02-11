@@ -1,5 +1,14 @@
+'use strict';
+
 // Hardcoded locale for testing
-let localCurrencyCode = 'CNY';
+let localCurrencyCode = '';
+
+chrome.storage.sync.get({
+  currency: 'USD'
+}, function (items) {
+  localCurrencyCode = items.currency;
+  currencyConvert(localCurrencyCode);
+});
 
 // The "Price" object
 class Price {
@@ -18,14 +27,14 @@ class Price {
   convert() {
     const lp = this.localPrice;
     this.priceClass.fadeOut(200, function () {
-      $(this).text(lp + '\u00A0CNY').fadeIn(200);
+      $(this).text(lp + '\u00A0' + localCurrencyCode).fadeIn(200);
     });
   }
 }
 
-currencyConvert(localCurrencyCode);
-
 function currencyConvert(locale) {
+  console.log('Currency is ' + locale);
+
   const currency_input = 1;
   const currency_from = 'JPY'; // currency codes : http://en.wikipedia.org/wiki/ISO_4217
   const currency_to = locale;
@@ -39,6 +48,7 @@ function currencyConvert(locale) {
   // Fire Ajax using GET method
   $.get(yql_query_url, function (data) {
     rate = data.query.results.rate.Rate;
+    console.log('Exchange rate is ' + rate)
 
     // Make a "Price" object
     const price = new Price('.price', rate);

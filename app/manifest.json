@@ -16,7 +16,9 @@
   },
   "permissions": [
     "http://*.amiami.com/*",
-    "https://*.amiami.com/*"
+    "https://*.amiami.com/*",
+    "https://www.currency-iso.org/*",
+    "storage"
   ],
   "content_scripts": [
     {
