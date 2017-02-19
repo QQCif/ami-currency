@@ -11,14 +11,17 @@
   "background": {
     "scripts": [
       "scripts/chromereload.js",
+      "scripts/jquery-3.1.1.min.js",
+      "scripts/helper.js",
       "scripts/background.js"
-    ]
+    ],
+    "persistent": false
   },
   "permissions": [
     "http://*.amiami.com/*",
-    "https://*.amiami.com/*",
     "https://www.currency-iso.org/*",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "content_scripts": [
     {
@@ -27,7 +30,17 @@
       ],
       "js": [
         "scripts/jquery-3.1.1.min.js",
+        "scripts/helper.js",
         "scripts/cs.js"
+      ]
+    },
+    {
+      "matches": [
+        "http://slist.amiami.com/top/search/*"
+      ],
+      "js": [
+        "scripts/jquery-3.1.1.min.js",
+        "scripts/search.js"
       ]
     }
   ],

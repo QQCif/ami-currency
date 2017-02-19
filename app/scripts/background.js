@@ -8,4 +8,12 @@ chrome.tabs.onUpdated.addListener(function (tabId) {
   chrome.pageAction.show(tabId);
 });
 
-console.log('\'Allo \'Allo! Event Page for Page Action');
+chrome.runtime.onStartup.addListener(function () {
+  console.log('Starting browser... updating rate.');
+
+  chrome.storage.local.get({
+    currency: 'USD'
+  }, function (items) {
+    currencyConvert(items.currency);
+  });
+});
