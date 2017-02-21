@@ -2,29 +2,47 @@
 
 // The "Price" object
 class Price {
-  constructor(type, rate, currency, fullPage = false) {
-    if (fullPage === false) {
-      this.priceClass = $(type).first();
-
-    } else {
+  constructor(type, fullPage = false) {
+    if (fullPage) {
       this.priceClass = $(type);
+    } else {
+      this.priceClass = $(type).first();
     }
-    const price = this.priceClass.contents().filter(function () { return this.nodeType == 3; }).text().trim();
-    // Remove separator and JPY
-    const trimPrice = function (string) {
-      return string.replace(/,/g, '').slice(0, -4);
-    }
-    const convertToLocalPrice = function (rate) {
-      return (trimPrice(price) * rate).toFixed(2);
-    }
-    this.localPrice = convertToLocalPrice(rate);
   }
-  convert(currency) {
-    const lp = this.localPrice;
-    this.priceClass.fadeOut(200, function () {
-      console.log(currency);
-      $(this).text(lp + '\u00A0' + currency).fadeIn(200);
-    });
+  convert(currency, rate, fullPage = false) {
+    if (fullPage) {
+      this.priceClass.each(function (i) {
+        const price = $(this).contents().filter(function () { return this.nodeType == 3; }).text().trim();
+        // Remove separator and JPY
+        const trimPrice = function (string) {
+          return string.replace(/,/g, '').slice(0, -4);
+        }
+        const convertToLocalPrice = function (rate) {
+          return (trimPrice(price) * rate).toFixed(2);
+        }
+        const lp = convertToLocalPrice(rate);
+        console.log('lp is ' + lp);
+        $(this).fadeOut(200, function () {
+          console.log(currency);
+          $(this).text(lp + '\u00A0' + currency).fadeIn(200);
+        });
+      });
+    } else {
+      const price = this.priceClass.contents().filter(function () { return this.nodeType == 3; }).text().trim();
+      // Remove separator and JPY
+      const trimPrice = function (string) {
+        return string.replace(/,/g, '').slice(0, -4);
+      }
+      const convertToLocalPrice = function (rate) {
+        return (trimPrice(price) * rate).toFixed(2);
+      }
+      this.localPrice = convertToLocalPrice(rate);
+      const lp = this.localPrice;
+      this.priceClass.fadeOut(200, function () {
+        console.log(currency);
+        $(this).text(lp + '\u00A0' + currency).fadeIn(200);
+      });
+    }
   }
 }
 

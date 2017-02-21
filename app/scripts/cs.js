@@ -10,10 +10,10 @@ chrome.storage.local.get({
     const rate = items.rate;
     console.log('Readed rate is: ' + rate);
     // Make a "Price" object
-    const price = new Price('.price', rate, currency);
-    price.convert(currency);
+    const price = new Price('.price');
+    price.convert(currency, rate);
 
-    const sellingPrice = new Price('.selling_price', rate, currency);
-    sellingPrice.convert(currency);
+    const sellingPrice = new Price('.selling_price');
+    sellingPrice.convert(currency, rate);
   });
 });
