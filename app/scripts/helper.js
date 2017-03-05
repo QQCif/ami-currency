@@ -13,9 +13,14 @@ class Price {
     if (fullPage) {
       this.priceClass.each(function (i) {
         const price = $(this).contents().filter(function () { return this.nodeType == 3; }).text().trim();
-        // Remove separator and JPY
+        // Remove "~", separator and JPY
         const trimPrice = function (string) {
-          return string.replace(/,/g, '').slice(0, -4);
+          if (/~/g.test(string)) {
+            return string.replace(/,/g, '').slice(0, -5);
+          }
+          else {
+            return string.replace(/,/g, '').slice(0, -4);
+          }
         }
         const convertToLocalPrice = function (rate) {
           return (trimPrice(price) * rate).toFixed(2);
