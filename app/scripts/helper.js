@@ -22,10 +22,7 @@ class Price {
             return string.replace(/,/g, '').slice(0, -4);
           }
         }
-        const convertToLocalPrice = function (rate) {
-          return (trimPrice(price) * rate).toFixed(2);
-        }
-        const lp = convertToLocalPrice(rate);
+        const lp = (trimPrice(price) * rate).toFixed(2);
         console.log('lp is ' + lp);
         $(this).fadeOut(200, function () {
           console.log(currency);
@@ -38,11 +35,7 @@ class Price {
       const trimPrice = function (string) {
         return string.replace(/,/g, '').slice(0, -4);
       }
-      const convertToLocalPrice = function (rate) {
-        return (trimPrice(price) * rate).toFixed(2);
-      }
-      this.localPrice = convertToLocalPrice(rate);
-      const lp = this.localPrice;
+      const lp = (trimPrice(price) * rate).toFixed(2);
       this.priceClass.fadeOut(200, function () {
         console.log(currency);
         $(this).text(lp + '\u00A0' + currency).fadeIn(200);
@@ -50,7 +43,6 @@ class Price {
     }
   }
 }
-
 
 function currencyConvert(currency) {
   console.log('Currency is ' + currency);
